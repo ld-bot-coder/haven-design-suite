@@ -12,6 +12,10 @@ import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import AdminEnquiries from "./pages/admin/Enquiries";
+import AdminAppointments from "./pages/admin/Appointments";
+import AdminGallery from "./pages/admin/Gallery";
+import AdminContent from "./pages/admin/Content";
+import AdminSettings from "./pages/admin/Settings";
 import { AdminLayout } from "./components/layout/AdminLayout";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +41,10 @@ const App = () => (
             <Route index element={<AdminDashboard />} />
             <Route path="products" element={<AdminProducts />} />
             <Route path="enquiries" element={<AdminEnquiries />} />
+            <Route path="appointments" element={<AdminAppointments />} />
+            <Route path="gallery" element={<AdminGallery />} />
+            <Route path="content" element={<AdminContent />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -16,74 +17,43 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
-import { Search, Eye, Phone, Mail, MessageSquare } from "lucide-react";
-import { Label } from "@/components/ui/label";
-
-const enquiries = [
-  {
-    id: 1,
-    name: "Priya Sharma",
-    phone: "+91 98765 43210",
-    email: "priya@email.com",
-    city: "Mumbai",
-    requirement: "Looking for custom curtains for my 3BHK living room. Prefer neutral colors.",
-    status: "new",
-    date: "2024-01-15",
-  },
-  {
-    id: 2,
-    name: "Rajesh Gupta",
-    phone: "+91 87654 32109",
-    email: "rajesh@email.com",
-    city: "Delhi",
-    requirement: "Interested in modular sofa set. Budget around 1 lakh.",
-    status: "contacted",
-    date: "2024-01-14",
-  },
-  {
-    id: 3,
-    name: "Ananya Krishnan",
-    phone: "+91 76543 21098",
-    email: "ananya@email.com",
-    city: "Chennai",
-    requirement: "Complete bedroom interior including bed, wardrobe, and curtains.",
-    status: "new",
-    date: "2024-01-14",
-  },
-  {
-    id: 4,
-    name: "Vikram Patel",
-    phone: "+91 65432 10987",
-    email: "vikram@email.com",
-    city: "Bangalore",
-    requirement: "Roman blinds for home office. Need light control.",
-    status: "converted",
-    date: "2024-01-13",
-  },
-  {
-    id: 5,
-    name: "Meera Reddy",
-    phone: "+91 54321 09876",
-    email: "meera@email.com",
-    city: "Hyderabad",
-    requirement: "Wall panels for TV unit background. Modern design preferred.",
-    status: "contacted",
-    date: "2024-01-12",
-  },
-];
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, Eye, Phone, Mail, MessageSquare, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { useEnquiries } from "@/hooks/useStore";
+import type { Enquiry } from "@/lib/store";
 
 const AdminEnquiries = () => {
+  const { enquiries, updateEnquiry, deleteEnquiry } = useEnquiries();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedEnquiry, setSelectedEnquiry] = useState<typeof enquiries[0] | null>(null);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [notes, setNotes] = useState("");
+  const [detailStatus, setDetailStatus] = useState<Enquiry["status"]>("new");
 
-  const filteredEnquiries = enquiries.filter(
-    (enquiry) =>
+  const filteredEnquiries = enquiries.filter((enquiry) => {
+    const matchesSearch =
       enquiry.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      enquiry.city.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      enquiry.city.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "all" || enquiry.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const stats = {
+    new: enquiries.filter((e) => e.status === "new").length,
+    contacted: enquiries.filter((e) => e.status === "contacted").length,
+    converted: enquiries.filter((e) => e.status === "converted").length,
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -98,22 +68,51 @@ const AdminEnquiries = () => {
     }
   };
 
+  const handleOpenDetail = (enquiry: Enquiry) => {
+    setSelectedEnquiry(enquiry);
+    setNotes(enquiry.notes);
+    setDetailStatus(enquiry.status);
+    setIsDetailOpen(true);
+  };
+
+  const handleSaveEnquiry = () => {
+    if (selectedEnquiry) {
+      updateEnquiry(selectedEnquiry.id, { status: detailStatus, notes });
+      toast.success("Enquiry updated successfully");
+      setIsDetailOpen(false);
+    }
+  };
+
+  const handleDelete = (enquiry: Enquiry) => {
+    deleteEnquiry(enquiry.id);
+    toast.success("Enquiry deleted successfully");
+  };
+
+  const handleWhatsApp = (phone: string) => {
+    const cleanPhone = phone.replace(/\s+/g, "").replace("+", "");
+    window.open(`https://wa.me/${cleanPhone}`, "_blank");
+  };
+
+  const handleCall = (phone: string) => {
+    window.open(`tel:${phone}`, "_self");
+  };
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
       <div>
         <h1 className="font-serif text-3xl">Enquiries</h1>
         <p className="text-muted-foreground mt-1">
-          Manage customer enquiries and leads
+          Manage customer enquiries and leads ({enquiries.length} total)
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { label: "New", count: 2, color: "bg-primary/10 text-primary" },
-          { label: "Contacted", count: 2, color: "bg-gold/10 text-gold" },
-          { label: "Converted", count: 1, color: "bg-sage/10 text-sage" },
+          { label: "New", count: stats.new, color: "bg-primary/10 text-primary" },
+          { label: "Contacted", count: stats.contacted, color: "bg-gold/10 text-gold" },
+          { label: "Converted", count: stats.converted, color: "bg-sage/10 text-sage" },
         ].map((stat) => (
           <motion.div
             key={stat.label}
@@ -121,7 +120,7 @@ const AdminEnquiries = () => {
             animate={{ opacity: 1, y: 0 }}
             className="admin-card text-center"
           >
-            <p className={`text-3xl font-serif font-semibold`}>{stat.count}</p>
+            <p className="text-3xl font-serif font-semibold">{stat.count}</p>
             <p className="text-sm text-muted-foreground">{stat.label}</p>
           </motion.div>
         ))}
@@ -144,12 +143,17 @@ const AdminEnquiries = () => {
               className="pl-10"
             />
           </div>
-          <select className="px-4 py-2 rounded-lg border border-input bg-background text-sm">
-            <option>All Status</option>
-            <option>New</option>
-            <option>Contacted</option>
-            <option>Converted</option>
-          </select>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-[160px]">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="new">New</SelectItem>
+              <SelectItem value="contacted">Contacted</SelectItem>
+              <SelectItem value="converted">Converted</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </motion.div>
 
@@ -169,124 +173,141 @@ const AdminEnquiries = () => {
               <TableHead>Requirement</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead className="w-[80px]">Actions</TableHead>
+              <TableHead className="w-[100px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredEnquiries.map((enquiry) => (
-              <TableRow key={enquiry.id}>
-                <TableCell className="font-medium">{enquiry.name}</TableCell>
-                <TableCell>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xs flex items-center gap-1">
-                      <Phone className="h-3 w-3" />
-                      {enquiry.phone}
-                    </span>
-                    <span className="text-xs flex items-center gap-1 text-muted-foreground">
-                      <Mail className="h-3 w-3" />
-                      {enquiry.email}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>{enquiry.city}</TableCell>
-                <TableCell className="max-w-[200px] truncate">
-                  {enquiry.requirement}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full capitalize ${getStatusColor(
-                      enquiry.status
-                    )}`}
-                  >
-                    {enquiry.status}
-                  </span>
-                </TableCell>
-                <TableCell className="text-muted-foreground text-sm">
-                  {new Date(enquiry.date).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setSelectedEnquiry(enquiry)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle className="font-serif text-2xl">
-                          Enquiry Details
-                        </DialogTitle>
-                      </DialogHeader>
-                      {selectedEnquiry && (
-                        <div className="space-y-6">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label className="text-muted-foreground">Name</Label>
-                              <p className="font-medium">{selectedEnquiry.name}</p>
-                            </div>
-                            <div>
-                              <Label className="text-muted-foreground">City</Label>
-                              <p className="font-medium">{selectedEnquiry.city}</p>
-                            </div>
-                            <div>
-                              <Label className="text-muted-foreground">Phone</Label>
-                              <p className="font-medium">{selectedEnquiry.phone}</p>
-                            </div>
-                            <div>
-                              <Label className="text-muted-foreground">Email</Label>
-                              <p className="font-medium">{selectedEnquiry.email}</p>
-                            </div>
-                          </div>
-
-                          <div>
-                            <Label className="text-muted-foreground">Requirement</Label>
-                            <p className="mt-1">{selectedEnquiry.requirement}</p>
-                          </div>
-
-                          <div>
-                            <Label className="text-muted-foreground">Status</Label>
-                            <select className="mt-1 w-full px-4 py-2 rounded-lg border border-input bg-background">
-                              <option value="new">New</option>
-                              <option value="contacted">Contacted</option>
-                              <option value="converted">Converted</option>
-                            </select>
-                          </div>
-
-                          <div>
-                            <Label className="text-muted-foreground">Internal Notes</Label>
-                            <Textarea
-                              value={notes}
-                              onChange={(e) => setNotes(e.target.value)}
-                              placeholder="Add notes about this enquiry..."
-                              className="mt-1"
-                              rows={3}
-                            />
-                          </div>
-
-                          <div className="flex gap-3">
-                            <Button variant="hero" className="flex-1">
-                              <MessageSquare className="h-4 w-4 mr-2" />
-                              WhatsApp
-                            </Button>
-                            <Button variant="secondary" className="flex-1">
-                              <Phone className="h-4 w-4 mr-2" />
-                              Call
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </DialogContent>
-                  </Dialog>
+            {filteredEnquiries.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                  No enquiries found
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              filteredEnquiries.map((enquiry) => (
+                <TableRow key={enquiry.id}>
+                  <TableCell className="font-medium">{enquiry.name}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs flex items-center gap-1">
+                        <Phone className="h-3 w-3" />
+                        {enquiry.phone}
+                      </span>
+                      <span className="text-xs flex items-center gap-1 text-muted-foreground">
+                        <Mail className="h-3 w-3" />
+                        {enquiry.email}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>{enquiry.city}</TableCell>
+                  <TableCell className="max-w-[200px] truncate">
+                    {enquiry.requirement}
+                  </TableCell>
+                  <TableCell>
+                    <span className={`text-xs px-2 py-1 rounded-full capitalize ${getStatusColor(enquiry.status)}`}>
+                      {enquiry.status}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {new Date(enquiry.date).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => handleOpenDetail(enquiry)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" onClick={() => handleDelete(enquiry)}>
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </motion.div>
+
+      {/* Detail Dialog */}
+      <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl">Enquiry Details</DialogTitle>
+            <DialogDescription>View and manage this customer enquiry.</DialogDescription>
+          </DialogHeader>
+          {selectedEnquiry && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Name</Label>
+                  <p className="font-medium">{selectedEnquiry.name}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">City</Label>
+                  <p className="font-medium">{selectedEnquiry.city}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Phone</Label>
+                  <p className="font-medium">{selectedEnquiry.phone}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Email</Label>
+                  <p className="font-medium">{selectedEnquiry.email}</p>
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-muted-foreground">Requirement</Label>
+                <p className="mt-1">{selectedEnquiry.requirement}</p>
+              </div>
+
+              <div>
+                <Label className="text-muted-foreground">Status</Label>
+                <Select value={detailStatus} onValueChange={(v: Enquiry["status"]) => setDetailStatus(v)}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="new">New</SelectItem>
+                    <SelectItem value="contacted">Contacted</SelectItem>
+                    <SelectItem value="converted">Converted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label className="text-muted-foreground">Internal Notes</Label>
+                <Textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Add notes about this enquiry..."
+                  className="mt-1"
+                  rows={3}
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <Button variant="hero" className="flex-1" onClick={() => handleWhatsApp(selectedEnquiry.phone)}>
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  WhatsApp
+                </Button>
+                <Button variant="secondary" className="flex-1" onClick={() => handleCall(selectedEnquiry.phone)}>
+                  <Phone className="h-4 w-4 mr-2" />
+                  Call
+                </Button>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDetailOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="hero" onClick={handleSaveEnquiry}>
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
