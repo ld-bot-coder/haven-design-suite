@@ -30,7 +30,7 @@ const AdminLogin = () => {
     } catch (error: any) {
       toast({
         title: "Login failed",
-        description: error.response?.data?.error || "Invalid email or password",
+        description: error.message || "Invalid email or password",
         variant: "destructive",
       });
     } finally {

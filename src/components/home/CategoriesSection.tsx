@@ -12,31 +12,31 @@ const categories = [
     name: "Curtains & Drapes",
     description: "Elegant window dressing for every room",
     image: curtainsImage,
-    href: "/collections?category=curtains",
+    href: "/collections?category=Curtains",
   },
   {
-    name: "Sofas & Seating",
-    description: "Premium comfort meets timeless design",
-    image: sofaImage,
-    href: "/collections?category=sofas",
+    name: "Bed Sheets & Diwan Sets",
+    description: "Premium bedding and seating covers",
+    image: bedroomImage,
+    href: "/collections?category=Bed Sheets",
   },
   {
     name: "Blinds & Shades",
     description: "Modern light control solutions",
     image: blindsImage,
-    href: "/collections?category=blinds",
+    href: "/collections?category=Vertical Blinds",
   },
   {
-    name: "Wallpapers & Panels",
+    name: "Wallpapers",
     description: "Transform walls into art",
     image: wallpaperImage,
-    href: "/collections?category=wallpapers",
+    href: "/collections?category=Wallpapers",
   },
   {
-    name: "Bedroom Furniture",
-    description: "Create your perfect sanctuary",
-    image: bedroomImage,
-    href: "/collections?category=bedroom",
+    name: "Sofa Cloth & Upholstery",
+    description: "Premium fabric covers for furniture",
+    image: sofaImage,
+    href: "/collections?category=Sofa Cloth",
   },
 ];
 
@@ -60,7 +60,7 @@ export function CategoriesSection() {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             From custom curtains to complete interior solutions, discover our
-            curated range of premium home furnishings.
+            curated range of premium home furnishings and covers.
           </p>
         </motion.div>
 
@@ -73,17 +73,15 @@ export function CategoriesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative overflow-hidden rounded-2xl ${
-                index === 0 || index === 3 ? "md:col-span-1 lg:row-span-2" : ""
-              }`}
+              className={`group relative overflow-hidden rounded-2xl ${index === 0 || index === 3 ? "md:col-span-1 lg:row-span-2" : ""
+                }`}
             >
               <Link to={category.href} className="block h-full">
                 <div
-                  className={`relative overflow-hidden ${
-                    index === 0 || index === 3
-                      ? "h-[400px] lg:h-full min-h-[400px]"
-                      : "h-[280px]"
-                  }`}
+                  className={`relative overflow-hidden ${index === 0 || index === 3
+                    ? "h-[400px] lg:h-full min-h-[400px]"
+                    : "h-[280px]"
+                    }`}
                 >
                   <img
                     src={category.image}

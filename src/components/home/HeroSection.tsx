@@ -11,7 +11,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Luxury living room interior with custom furniture"
+          alt="Luxury living room interior with premium furnishings"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/70 via-charcoal/40 to-transparent" />
@@ -35,7 +35,7 @@ export function HeroSection() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-ivory leading-tight mb-6"
           >
-            Custom Furniture & Interior Solutions for{" "}
+            Premium Interior Furnishings & Covers for{" "}
             <span className="text-gold">Modern Homes</span>
           </motion.h1>
 
@@ -45,8 +45,8 @@ export function HeroSection() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="text-lg md:text-xl text-ivory/80 mb-8 leading-relaxed"
           >
-            Transform your living spaces with bespoke curtains, premium sofas,
-            elegant blinds, and complete interior solutions crafted to perfection.
+            Transform your living spaces with premium curtains, bed sheets,
+            wallpapers, blinds, flooring, carpets, and complete interior furnishing solutions.
           </motion.p>
 
           <motion.div

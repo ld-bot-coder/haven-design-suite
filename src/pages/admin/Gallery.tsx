@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,122 +29,147 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search, Edit, Trash2, Image as ImageIcon } from "lucide-react";
+import { Plus, Search, Trash2, Image as ImageIcon, Upload } from "lucide-react";
 import { toast } from "sonner";
-import { useGallery } from "@/hooks/useStore";
-import type { GalleryItem } from "@/lib/store";
+import { storage, GalleryImage } from "@/lib/storage";
 
-import heroImage from "@/assets/hero-living-room.jpg";
-import bedroomImage from "@/assets/bedroom-interior.jpg";
-import kidsImage from "@/assets/kids-room.jpg";
-import officeImage from "@/assets/home-office.jpg";
-import curtainsImage from "@/assets/curtains-closeup.jpg";
-import sofaImage from "@/assets/sofa-seating.jpg";
+// Categories from business card
+const categories = [
+  "Curtains",
+  "Curtain Rods",
+  "Bed Sheets",
+  "Diwan Sets",
+  "Doormats",
+  "Sofa Cloth",
+  "Wallpapers",
+  "Pillows",
+  "Vertical Blinds",
+  "Wooden Blinds",
+  "Customized Wallpapers",
+  "Wooden Flooring",
+  "Gym Flooring",
+  "Carpets",
+  "All Other Interiors",
+];
 
-const categories = ["Curtains", "Sofas", "Blinds", "Wallpapers", "Bedroom"];
-const roomTypes = ["Living Room", "Bedroom", "Kids Room", "Office", "Dining Room"];
 
-const placeholderImages = [heroImage, bedroomImage, kidsImage, officeImage, curtainsImage, sofaImage];
 
 const AdminGallery = () => {
-  const { gallery, addGalleryItem, updateGalleryItem, deleteGalleryItem } = useGallery();
+  const [gallery, setGallery] = useState<GalleryImage[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Dialog states
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
-  const [deletingItem, setDeletingItem] = useState<GalleryItem | null>(null);
+  const [deletingItem, setDeletingItem] = useState<GalleryImage | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
     title: "",
     category: "",
-    roomType: "",
-    imageUrl: "",
     description: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+
+  // Fetch gallery items
+  const fetchGallery = async () => {
+    try {
+      setIsLoading(true);
+      const params = categoryFilter !== "all" ? { category: categoryFilter } : {};
+      const data = await storage.getGalleryImages(params);
+      setGallery(data);
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+      toast.error("Failed to load gallery");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGallery();
+  }, [categoryFilter]);
 
   // Filter gallery
-  const filteredGallery = gallery.filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredGallery = gallery.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleAdd = () => {
-    setEditingItem(null);
     setFormData({
       title: "",
       category: "",
-      roomType: "",
-      imageUrl: placeholderImages[Math.floor(Math.random() * placeholderImages.length)],
       description: "",
     });
+    setSelectedFile(null);
+    setPreviewUrl("");
     setIsFormOpen(true);
   };
 
-  const handleEdit = (item: GalleryItem) => {
-    setEditingItem(item);
-    setFormData({
-      title: item.title,
-      category: item.category,
-      roomType: item.roomType,
-      imageUrl: item.imageUrl,
-      description: item.description,
-    });
-    setIsFormOpen(true);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleSave = () => {
-    if (!formData.title || !formData.category || !formData.roomType) {
-      toast.error("Please fill in all required fields");
+  const handleSave = async () => {
+    if (!formData.title || !formData.category) {
+      toast.error("Please fill in title and category");
       return;
     }
 
-    if (editingItem) {
-      updateGalleryItem(editingItem.id, formData);
-      toast.success("Gallery item updated successfully");
-    } else {
-      addGalleryItem(formData);
-      toast.success("Gallery item added successfully");
+    if (!selectedFile) {
+      toast.error("Please select an image");
+      return;
     }
 
-    setIsFormOpen(false);
+    try {
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("image", selectedFile);
+
+      await storage.uploadGalleryImage(formDataToSend);
+
+      toast.success("Image uploaded successfully");
+      setIsFormOpen(false);
+      fetchGallery();
+    } catch (error: any) {
+      console.error("Error uploading image:", error);
+      toast.error(error.message || "Failed to upload image");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleDelete = () => {
-    if (deletingItem) {
-      deleteGalleryItem(deletingItem.id);
-      toast.success("Gallery item deleted successfully");
+  const handleDelete = async () => {
+    if (!deletingItem) return;
+
+    try {
+      setIsLoading(true);
+      await storage.deleteGalleryImage(deletingItem.id);
+
+      toast.success("Image deleted successfully");
       setIsDeleteOpen(false);
       setDeletingItem(null);
+      fetchGallery();
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      toast.error("Failed to delete image");
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const getImageSrc = (item: GalleryItem) => {
-    // Handle both imported images and path strings
-    if (item.imageUrl.startsWith("/src/assets/")) {
-      const filename = item.imageUrl.split("/").pop();
-      switch (filename) {
-        case "hero-living-room.jpg":
-          return heroImage;
-        case "bedroom-interior.jpg":
-          return bedroomImage;
-        case "kids-room.jpg":
-          return kidsImage;
-        case "home-office.jpg":
-          return officeImage;
-        case "curtains-closeup.jpg":
-          return curtainsImage;
-        case "sofa-seating.jpg":
-          return sofaImage;
-        default:
-          return heroImage;
-      }
-    }
-    return item.imageUrl;
   };
 
   return (
@@ -154,12 +179,12 @@ const AdminGallery = () => {
         <div>
           <h1 className="font-serif text-3xl">Gallery</h1>
           <p className="text-muted-foreground mt-1">
-            Manage project photos and portfolio images ({gallery.length} items)
+            Manage your interior design showcase ({gallery.length} items)
           </p>
         </div>
         <Button variant="hero" onClick={handleAdd}>
           <Plus className="h-4 w-4 mr-2" />
-          Add Image
+          Upload Image
         </Button>
       </div>
 
@@ -181,7 +206,7 @@ const AdminGallery = () => {
             />
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectTrigger className="w-full sm:w-[220px]">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
@@ -203,10 +228,17 @@ const AdminGallery = () => {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
-        {filteredGallery.length === 0 ? (
+        {isLoading ? (
+          <div className="col-span-full admin-card text-center py-12">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        ) : filteredGallery.length === 0 ? (
           <div className="col-span-full admin-card text-center py-12">
             <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <p className="text-muted-foreground">No gallery items found</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              Upload your first image to get started
+            </p>
           </div>
         ) : (
           filteredGallery.map((item) => (
@@ -218,14 +250,11 @@ const AdminGallery = () => {
             >
               <div className="relative aspect-[4/3] -mx-6 -mt-6 mb-4">
                 <img
-                  src={getImageSrc(item)}
+                  src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-charcoal/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <Button variant="secondary" size="icon" onClick={() => handleEdit(item)}>
-                    <Edit className="h-4 w-4" />
-                  </Button>
                   <Button
                     variant="destructive"
                     size="icon"
@@ -243,27 +272,26 @@ const AdminGallery = () => {
                 <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
                   {item.category}
                 </span>
-                <span className="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground">
-                  {item.roomType}
-                </span>
               </div>
               {item.description && (
-                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{item.description}</p>
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                  {item.description}
+                </p>
               )}
             </motion.div>
           ))
         )}
       </motion.div>
 
-      {/* Add/Edit Dialog */}
+      {/* Add Dialog */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="font-serif text-xl">
-              {editingItem ? "Edit Gallery Item" : "Add Gallery Item"}
+              Upload Gallery Image
             </DialogTitle>
             <DialogDescription>
-              {editingItem ? "Update the image details." : "Add a new project photo to your gallery."}
+              Add a new image to showcase your interior design work.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -272,78 +300,76 @@ const AdminGallery = () => {
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="Project title"
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                placeholder="e.g., Elegant Living Room Curtains"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="category">Category *</Label>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) => setFormData({ ...formData, category: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="roomType">Room Type *</Label>
-                <Select
-                  value={formData.roomType}
-                  onValueChange={(value) => setFormData({ ...formData, roomType: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select room" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {roomTypes.map((room) => (
-                      <SelectItem key={room} value={room}>
-                        {room}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="category">Category *</Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, category: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Brief description of the project..."
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                placeholder="Brief description of the design..."
                 rows={3}
               />
             </div>
             <div className="space-y-2">
-              <Label>Preview Image</Label>
-              <div className="aspect-video rounded-lg bg-secondary overflow-hidden">
-                <img
-                  src={formData.imageUrl || heroImage}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
+              <Label htmlFor="image">Image *</Label>
+              <div className="flex items-center gap-4">
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="cursor-pointer"
                 />
+                <Upload className="h-5 w-5 text-muted-foreground" />
               </div>
-              <p className="text-xs text-muted-foreground">
-                Note: In production, you would upload images here. Using placeholder for demo.
-              </p>
             </div>
+            {previewUrl && (
+              <div className="space-y-2">
+                <Label>Preview</Label>
+                <div className="aspect-video rounded-lg bg-secondary overflow-hidden">
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsFormOpen(false)}>
               Cancel
             </Button>
-            <Button variant="hero" onClick={handleSave}>
-              {editingItem ? "Update" : "Add"}
+            <Button variant="hero" onClick={handleSave} disabled={isLoading}>
+              {isLoading ? "Uploading..." : "Upload"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -355,7 +381,8 @@ const AdminGallery = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Gallery Item</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{deletingItem?.title}"?
+              Are you sure you want to delete "{deletingItem?.title}"? This
+              action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

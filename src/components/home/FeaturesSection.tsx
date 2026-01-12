@@ -10,7 +10,7 @@ const features = [
   {
     icon: Palette,
     title: "Design Consultation",
-    description: "Expert guidance to match furniture with your home's aesthetic.",
+    description: "Expert guidance to match furnishings with your home's aesthetic.",
   },
   {
     icon: Truck,

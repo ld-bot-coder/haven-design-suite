@@ -7,7 +7,6 @@ import {
   MessageSquare,
   Calendar,
   Image,
-  FileText,
   Settings,
   LogOut,
   Menu,
@@ -22,7 +21,6 @@ const sidebarLinks = [
   { name: "Enquiries", href: "/admin/enquiries", icon: MessageSquare },
   { name: "Appointments", href: "/admin/appointments", icon: Calendar },
   { name: "Gallery", href: "/admin/gallery", icon: Image },
-  { name: "Content", href: "/admin/content", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
@@ -60,11 +58,10 @@ export function AdminLayout() {
               <li key={link.name}>
                 <Link
                   to={link.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive(link.href)
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent"
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive(link.href)
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent"
+                    }`}
                 >
                   <link.icon className="h-5 w-5" />
                   <span className="font-medium">{link.name}</span>
@@ -123,11 +120,10 @@ export function AdminLayout() {
                 <Link
                   to={link.href}
                   onClick={() => setIsSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
-                    isActive(link.href)
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent"
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg ${isActive(link.href)
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent"
+                    }`}
                 >
                   <link.icon className="h-5 w-5" />
                   <span>{link.name}</span>
