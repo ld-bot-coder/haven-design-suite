@@ -6,7 +6,7 @@ const testimonials = [
     name: "Priya Sharma",
     location: "Mumbai",
     rating: 5,
-    text: "ArtisanHome transformed our living room beyond expectations. The custom curtains and sofa perfectly match our vision. Truly exceptional craftsmanship!",
+    text: "Sri Venkateswara Furnishings transformed our living room beyond expectations. The custom curtains and sofa perfectly match our vision. Truly exceptional craftsmanship!",
     project: "Living Room Makeover",
   },
   {

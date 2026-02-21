@@ -6,102 +6,103 @@
 
 @layer base {
   :root {
-    /* Premium Furniture Brand - Warm Luxury Palette */
-    --background: 40 30% 97%;
-    --foreground: 30 15% 15%;
+    /* Sri Venkateswara Furnishings - Deep Purple & Red Palette */
+    --background: 240 10% 98%;
+    --foreground: 248 70% 15%;
 
-    --card: 40 25% 95%;
-    --card-foreground: 30 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 248 70% 15%;
 
-    --popover: 40 30% 97%;
-    --popover-foreground: 30 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 248 70% 15%;
 
-    /* Bronze/Gold accent */
-    --primary: 32 60% 40%;
-    --primary-foreground: 40 30% 97%;
+    /* Deep Purple */
+    --primary: 248 70% 25%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Soft beige */
-    --secondary: 35 25% 90%;
-    --secondary-foreground: 30 15% 25%;
+    /* Soft Blue/Purple tint for secondary */
+    --secondary: 248 20% 92%;
+    --secondary-foreground: 248 70% 25%;
 
     /* Warm grey */
-    --muted: 35 15% 88%;
-    --muted-foreground: 30 10% 45%;
+    --muted: 240 10% 94%;
+    --muted-foreground: 240 5% 45%;
 
-    /* Sage green accent */
-    --accent: 150 20% 45%;
-    --accent-foreground: 40 30% 97%;
+    /* Vivid Red accent from logo */
+    --accent: 10 85% 55%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Terracotta for special highlights */
-    --destructive: 15 60% 50%;
-    --destructive-foreground: 40 30% 97%;
+    /* Yellow/Gold text highlight */
+    --destructive: 45 95% 55%;
+    --destructive-foreground: 248 70% 15%;
 
-    --border: 35 20% 85%;
-    --input: 35 20% 85%;
-    --ring: 32 60% 40%;
+    --border: 240 10% 88%;
+    --input: 240 10% 88%;
+    --ring: 248 70% 25%;
 
     --radius: 0.5rem;
 
     /* Custom brand colors */
-    --ivory: 40 30% 97%;
-    --cream: 40 25% 93%;
-    --warm-grey: 35 15% 75%;
-    --charcoal: 30 15% 20%;
-    --bronze: 32 60% 40%;
-    --gold: 38 70% 55%;
-    --sage: 150 20% 45%;
-    --terracotta: 15 55% 55%;
-    --wood: 25 40% 35%;
+    --ivory: 240 10% 98%;
+    --cream: 0 0% 100%;
+    --warm-grey: 240 5% 75%;
+    --charcoal: 248 70% 15%;
+    --bronze: 248 70% 25%; /* Reusing primary for base */
+    --gold: 45 95% 55%;
+    --sage: 10 85% 55%; /* Reusing red accent */
+    --terracotta: 10 85% 55%;
+    --wood: 248 50% 15%;
 
     /* Sidebar - Admin */
-    --sidebar-background: 30 15% 15%;
-    --sidebar-foreground: 40 25% 90%;
-    --sidebar-primary: 32 60% 50%;
-    --sidebar-primary-foreground: 40 30% 97%;
-    --sidebar-accent: 30 15% 22%;
-    --sidebar-accent-foreground: 40 25% 90%;
-    --sidebar-border: 30 15% 25%;
-    --sidebar-ring: 32 60% 50%;
+    --sidebar-background: 248 70% 15%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 10 85% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 248 60% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 248 50% 25%;
+    --sidebar-ring: 10 85% 55%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(40 30% 97% / 0.9), hsl(35 25% 90% / 0.8));
-    --gradient-bronze: linear-gradient(135deg, hsl(32 60% 40%), hsl(38 70% 55%));
-    --gradient-warm: linear-gradient(180deg, hsl(40 30% 97%), hsl(35 25% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(248 70% 25%), hsl(248 80% 15%));
+    --gradient-bronze: linear-gradient(135deg, hsl(10 85% 55%), hsl(10 90% 45%));
+    --gradient-warm: linear-gradient(180deg, hsl(248 10% 96%), hsl(248 20% 90%));
 
     /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(30 15% 20% / 0.08);
-    --shadow-elevated: 0 12px 40px -8px hsl(30 15% 20% / 0.12);
-    --shadow-glow: 0 0 40px hsl(32 60% 40% / 0.15);
+    --shadow-soft: 0 4px 20px -4px hsl(248 70% 15% / 0.08);
+    --shadow-elevated: 0 12px 40px -8px hsl(248 70% 15% / 0.12);
+    --shadow-glow: 0 0 40px hsl(10 85% 55% / 0.2);
   }
 
   .dark {
-    --background: 30 15% 10%;
-    --foreground: 40 25% 93%;
+    --background: 248 80% 5%;
+    --foreground: 240 10% 98%;
 
-    --card: 30 15% 14%;
-    --card-foreground: 40 25% 93%;
+    --card: 248 70% 10%;
+    --card-foreground: 240 10% 98%;
 
-    --popover: 30 15% 12%;
-    --popover-foreground: 40 25% 93%;
+    --popover: 248 70% 10%;
+    --popover-foreground: 240 10% 98%;
 
-    --primary: 38 70% 55%;
-    --primary-foreground: 30 15% 10%;
+    /* Bright Red */
+    --primary: 10 85% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 15% 18%;
-    --secondary-foreground: 40 25% 90%;
+    --secondary: 248 60% 15%;
+    --secondary-foreground: 240 10% 95%;
 
-    --muted: 30 15% 20%;
-    --muted-foreground: 35 15% 60%;
+    --muted: 248 50% 15%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 150 25% 40%;
-    --accent-foreground: 40 30% 97%;
+    --accent: 45 95% 55%;
+    --accent-foreground: 248 80% 5%;
 
-    --destructive: 15 55% 45%;
-    --destructive-foreground: 40 30% 97%;
+    --destructive: 10 85% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 30 15% 22%;
-    --input: 30 15% 22%;
-    --ring: 38 70% 55%;
+    --border: 248 60% 20%;
+    --input: 248 60% 20%;
+    --ring: 10 85% 55%;
   }
 }
 

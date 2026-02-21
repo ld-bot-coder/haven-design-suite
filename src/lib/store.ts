@@ -162,7 +162,7 @@ const initialGallery: GalleryItem[] = [
     title: "Modern Living Room",
     category: "Curtains",
     roomType: "Living Room",
-    imageUrl: "/src/assets/hero-living-room.jpg",
+    imageUrl: "/src/assets/3.jpeg",
     description: "Elegant sheer curtains with blackout lining",
   },
   {
@@ -170,7 +170,7 @@ const initialGallery: GalleryItem[] = [
     title: "Luxe Bedroom Suite",
     category: "Bedroom",
     roomType: "Bedroom",
-    imageUrl: "/src/assets/bedroom-interior.jpg",
+    imageUrl: "/src/assets/4.jpeg",
     description: "Complete bedroom makeover with custom furniture",
   },
   {
@@ -178,7 +178,7 @@ const initialGallery: GalleryItem[] = [
     title: "Kids Paradise",
     category: "Wallpapers",
     roomType: "Kids Room",
-    imageUrl: "/src/assets/kids-room.jpg",
+    imageUrl: "/src/assets/5.jpeg",
     description: "Playful wallpaper design for children's room",
   },
   {
@@ -186,7 +186,7 @@ const initialGallery: GalleryItem[] = [
     title: "Executive Home Office",
     category: "Blinds",
     roomType: "Office",
-    imageUrl: "/src/assets/home-office.jpg",
+    imageUrl: "/src/assets/6.jpeg",
     description: "Motorized blinds for light control",
   },
 ];
@@ -195,17 +195,17 @@ const initialContent: ContentItem[] = [
   {
     id: "banner-1",
     type: "banner",
-    title: "Custom Furniture & Interior Solutions",
-    content: "Transform your home with bespoke furniture and elegant interiors crafted just for you.",
-    imageUrl: "/src/assets/hero-living-room.jpg",
+    title: "Wholesale & Retailer of Home Furnishings",
+    content: "Transform your home with our extensive collection of curtains, blinds, wallpapers, and more.",
+    imageUrl: "/src/assets/3.jpeg",
     active: true,
   },
   {
     id: "banner-2",
     type: "banner",
-    title: "Premium Window Treatments",
-    content: "Discover our exclusive collection of curtains, blinds, and shades.",
-    imageUrl: "/src/assets/curtains-closeup.jpg",
+    title: "Premium Home Decor",
+    content: "Discover our exclusive collection of curtains, blinds, wallpapers, and wooden flooring.",
+    imageUrl: "/src/assets/4.jpeg",
     active: true,
   },
   {
@@ -228,21 +228,21 @@ const initialContent: ContentItem[] = [
     id: "about-1",
     type: "about",
     title: "Our Story",
-    content: "Founded in 2010, ArtisanHome has been crafting bespoke furniture and interior solutions for discerning homeowners across India.",
+    content: "Sri Venkateswara Furnishings is your premier destination for high-quality home decor, offering a wide range of products including curtains, bed sheets, wallpapers, customized wallpapers, wooden flooring, gym flooring, and carpets.",
     active: true,
   },
 ];
 
 const initialSettings: SiteSettings = {
-  businessName: "ArtisanHome",
-  phone1: "+91 98765 43210",
-  phone2: "+91 98765 43211",
-  email: "hello@artisanhome.in",
-  address: "42 MG Road, Brigade Gateway, Bangalore, Karnataka 560001",
-  whatsappNumber: "+919876543210",
+  businessName: "Sri Venkateswara Furnishings",
+  phone1: "+91 90300 08781",
+  phone2: "+91 96400 08781",
+  email: "hello@srivenkateswara.in",
+  address: "#6-87/2B, Opp. Hymavathi Hospital, Main Road, Gopalapatnam, Visakhapatnam-530027",
+  whatsappNumber: "+919030008781",
   businessHours: "Mon - Sat: 10:00 AM - 7:00 PM, Sunday: By Appointment",
-  metaTitle: "ArtisanHome - Premium Furniture & Interior Solutions",
-  metaDescription: "Transform your home with custom furniture, curtains, blinds, and complete interior solutions. Book your free consultation today.",
+  metaTitle: "HOME DECOR - Sri Venkateswara Furnishings",
+  metaDescription: "Wholesale & Retailer of Home Furnishings. Transform your home with custom curtains, blinds, and wallpapers.",
 };
 
 // Store class with event emitter pattern

@@ -62,13 +62,13 @@ export interface User {
 
 class LocalStorageService {
     private STORAGE_KEYS = {
-        PRODUCTS: 'haven_products',
-        ENQUIRIES: 'haven_enquiries',
-        APPOINTMENTS: 'haven_appointments',
-        GALLERY: 'haven_gallery',
-        CONTENT: 'haven_content',
-        USER: 'haven_user',
-        AUTH_TOKEN: 'haven_auth_token',
+        PRODUCTS: 'sv_products',
+        ENQUIRIES: 'sv_enquiries',
+        APPOINTMENTS: 'sv_appointments',
+        GALLERY: 'sv_gallery',
+        CONTENT: 'sv_content',
+        USER: 'sv_user',
+        AUTH_TOKEN: 'sv_auth_token',
     };
 
     constructor() {
@@ -90,7 +90,7 @@ class LocalStorageService {
 
     private seedUser() {
         const defaultUser: User = {
-            email: 'admin@artisanhome.in',
+            email: 'admin@srivenkateswara.in',
             password: 'admin123', // In production, this should be hashed
             name: 'Admin',
         };
@@ -129,12 +129,12 @@ class LocalStorageService {
         const content: ContentItem[] = [
             {
                 key: 'site_title',
-                value: 'Haven Design Suite',
+                value: 'HOME DECOR',
                 updatedAt: new Date().toISOString(),
             },
             {
                 key: 'site_description',
-                value: 'Premium interior design solutions',
+                value: 'Wholesale & Retailer of Home Furnishings',
                 updatedAt: new Date().toISOString(),
             },
         ];

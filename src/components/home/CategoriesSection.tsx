@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import curtainsImage from "@/assets/curtains-closeup.jpg";
-import sofaImage from "@/assets/sofa-seating.jpg";
-import blindsImage from "@/assets/blinds-shades.jpg";
-import wallpaperImage from "@/assets/wallpaper-panels.jpg";
-import bedroomImage from "@/assets/bedroom-interior.jpg";
+import curtainsImage from "@/assets/7.jpeg";
+import sofaImage from "@/assets/8.jpeg";
+import blindsImage from "@/assets/9.jpeg";
+import wallpaperImage from "@/assets/10.jpeg";
+import bedroomImage from "@/assets/4.jpeg";
 
 const categories = [
   {

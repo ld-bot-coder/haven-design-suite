@@ -211,7 +211,7 @@ const AdminSettings = () => {
               <p className="text-primary text-lg hover:underline cursor-pointer truncate">
                 {formData.metaTitle || "Your Website Title"}
               </p>
-              <p className="text-sage text-sm">https://artisanhome.in</p>
+              <p className="text-sage text-sm">https://srivenkateswara.in</p>
               <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                 {formData.metaDescription || "Add a meta description to see how it will appear in search results..."}
               </p>

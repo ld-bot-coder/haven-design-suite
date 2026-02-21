@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { UserLayout } from "@/components/layout/UserLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-living-room.jpg";
-import bedroomImage from "@/assets/bedroom-interior.jpg";
-import kidsImage from "@/assets/kids-room.jpg";
-import officeImage from "@/assets/home-office.jpg";
+import heroImage from "@/assets/3.jpeg";
+import bedroomImage from "@/assets/4.jpeg";
+import kidsImage from "@/assets/5.jpeg";
+import officeImage from "@/assets/6.jpeg";
 
 const solutions = [
   {
@@ -97,15 +97,13 @@ const Solutions = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                index !== solutions.length - 1 ? "mb-24" : ""
-              }`}
+              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index !== solutions.length - 1 ? "mb-24" : ""
+                }`}
             >
               {/* Image */}
               <div
-                className={`relative overflow-hidden rounded-2xl ${
-                  index % 2 === 1 ? "lg:order-2" : ""
-                }`}
+                className={`relative overflow-hidden rounded-2xl ${index % 2 === 1 ? "lg:order-2" : ""
+                  }`}
               >
                 <img
                   src={solution.image}

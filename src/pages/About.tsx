@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { UserLayout } from "@/components/layout/UserLayout";
 import { Award, Users, Target, Heart } from "lucide-react";
-import heroImage from "@/assets/hero-living-room.jpg";
-import bedroomImage from "@/assets/bedroom-interior.jpg";
+import heroImage from "@/assets/3.jpeg";
+import bedroomImage from "@/assets/4.jpeg";
 
 const values = [
   {
@@ -67,10 +67,11 @@ const About = () => {
               Crafting Dreams Into Reality
             </h1>
             <p className="text-ivory/80 text-lg leading-relaxed">
-              For over 15 years, ArtisanHome has been transforming houses into
-              homes with our bespoke furniture and interior solutions. We blend
-              traditional Indian craftsmanship with contemporary design to
-              create spaces that inspire.
+              For over 15 years, Sri Venkateswara Furnishings has been transforming houses into
+              homes with our exquisite range of curtains, blinds, and wallpapers.
+              We believe that every space has a story waiting to be told, and our
+              mission is to help you tell yours through beautiful design and
+              impeccable craftsmanship that inspire.
             </p>
           </motion.div>
         </div>
@@ -94,10 +95,9 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  Founded in 2008 by a team of passionate designers and master
-                  craftsmen, ArtisanHome began as a small workshop in Bangalore
-                  with a simple mission: to bring world-class interior solutions
-                  to Indian homes.
+                  Founded by a team of passionate interior designers and master
+                  craftsmen, Sri Venkateswara Furnishings began as a local shop in Visakhapatnam
+                  with a simple goal: to make premium home decor accessible to everyone.
                 </p>
                 <p>
                   Today, we're proud to be one of India's most trusted names in

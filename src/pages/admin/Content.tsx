@@ -284,7 +284,7 @@ const AdminContent = () => {
                   id="imageUrl"
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  placeholder="/src/assets/hero-living-room.jpg"
+                  placeholder="/src/assets/3.jpeg"
                 />
               </div>
             )}

@@ -53,11 +53,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import curtainsImage from "@/assets/curtains-closeup.jpg";
-import sofaImage from "@/assets/sofa-seating.jpg";
-import blindsImage from "@/assets/blinds-shades.jpg";
-import wallpaperImage from "@/assets/wallpaper-panels.jpg";
-import bedroomImage from "@/assets/bedroom-interior.jpg";
+import curtainsImage from "@/assets/7.jpeg";
+import sofaImage from "@/assets/8.jpeg";
+import blindsImage from "@/assets/9.jpeg";
+import wallpaperImage from "@/assets/10.jpeg";
+import bedroomImage from "@/assets/4.jpeg";
 
 interface Product {
   id: number;
@@ -132,13 +132,13 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
-  
+
   // Dialog states
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
-  
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -183,13 +183,13 @@ const AdminProducts = () => {
 
     if (editingProduct) {
       // Update existing product
-      setProducts(products.map(p => 
-        p.id === editingProduct.id 
-          ? { 
-              ...p, 
-              ...formData, 
-              image: categoryImages[formData.category] || curtainsImage 
-            }
+      setProducts(products.map(p =>
+        p.id === editingProduct.id
+          ? {
+            ...p,
+            ...formData,
+            image: categoryImages[formData.category] || curtainsImage
+          }
           : p
       ));
       toast.success("Product updated successfully");
@@ -207,15 +207,15 @@ const AdminProducts = () => {
       setProducts([...products, newProduct]);
       toast.success("Product added successfully");
     }
-    
+
     setIsFormOpen(false);
     setFormData({ name: "", category: "", price: "", description: "" });
   };
 
   // Toggle product visibility
   const handleToggleVisibility = (product: Product) => {
-    setProducts(products.map(p => 
-      p.id === product.id 
+    setProducts(products.map(p =>
+      p.id === product.id
         ? { ...p, status: p.status === "active" ? "hidden" : "active" }
         : p
     ));
@@ -338,11 +338,10 @@ const AdminProducts = () => {
                   <TableCell>{formatPrice(product.price)}</TableCell>
                   <TableCell>
                     <span
-                      className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
-                        product.status === "active"
+                      className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${product.status === "active"
                           ? "bg-sage/10 text-sage"
                           : "bg-muted text-muted-foreground"
-                      }`}
+                        }`}
                     >
                       {product.status === "active" ? (
                         <Eye className="h-3 w-3" />
@@ -377,7 +376,7 @@ const AdminProducts = () => {
                             </>
                           )}
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => {
                             setDeletingProduct(product);
@@ -420,8 +419,8 @@ const AdminProducts = () => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="category">Category *</Label>
-              <Select 
-                value={formData.category} 
+              <Select
+                value={formData.category}
                 onValueChange={(value) => setFormData({ ...formData, category: value })}
               >
                 <SelectTrigger>
@@ -477,7 +476,7 @@ const AdminProducts = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDeleteProduct}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >

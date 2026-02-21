@@ -68,7 +68,7 @@ const AdminLogin = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@artisanhome.in"
+                  placeholder="admin@srivenkateswara.in"
                   className="pl-10"
                   required
                 />
@@ -112,7 +112,7 @@ const AdminLogin = () => {
           </form>
 
           <p className="text-center text-xs text-muted-foreground mt-6">
-            Demo: admin@artisanhome.in / admin123
+            Demo: admin@srivenkateswara.in / admin123
           </p>
         </div>
 

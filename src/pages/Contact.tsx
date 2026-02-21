@@ -229,18 +229,14 @@ const Contact = () => {
                     <div>
                       <p className="font-medium mb-1">Email</p>
                       <a
-                        href="mailto:hello@artisanhome.in"
-                        className="text-ivory/70 hover:text-gold transition-colors"
+                        href="mailto:contact@srivenkateswara.in"
+                        className="text-lg font-medium hover:text-primary transition-colors duration-300"
                       >
-                        hello@artisanhome.in
+                        contact@srivenkateswara.in
                       </a>
-                      <br />
-                      <a
-                        href="mailto:support@artisanhome.in"
-                        className="text-ivory/70 hover:text-gold transition-colors"
-                      >
-                        support@artisanhome.in
-                      </a>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        For general inquiries and consultation requests
+                      </p>
                     </div>
                   </div>
 

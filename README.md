@@ -98,7 +98,7 @@ CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
 
 # Admin Credentials
-ADMIN_EMAIL=admin@artisanhome.in
+ADMIN_EMAIL=admin@Sri Venkateswara Furnishings.in
 ADMIN_PASSWORD=admin123
 ```
 
@@ -133,7 +133,7 @@ npm run seed
 ```
 
 This will create:
-- Admin user (admin@artisanhome.in / admin123)
+- Admin user (admin@Sri Venkateswara Furnishings.in / admin123)
 - Sample products
 - Default site content
 
@@ -180,7 +180,7 @@ npm start
 ## 🔐 Default Admin Credentials
 
 ```
-Email: admin@artisanhome.in
+Email: admin@Sri Venkateswara Furnishings.in
 Password: admin123
 ```
 
@@ -283,4 +283,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Support
 
-For support, email hello@artisanhome.in or create an issue in the repository.
+For support, email hello@Sri Venkateswara Furnishings.in or create an issue in the repository.

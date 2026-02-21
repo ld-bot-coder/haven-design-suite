@@ -54,11 +54,11 @@ export function Footer() {
                 <span>+91 98765 43210</span>
               </a>
               <a
-                href="mailto:hello@artisanhome.in"
-                className="flex items-center gap-3 text-ivory/70 hover:text-gold transition-colors"
+                href="mailto:hello@srivenkateswara.in"
+                className="flex items-center space-x-3 text-ivory/80 hover:text-gold transition-colors"
               >
-                <Mail className="h-4 w-4" />
-                <span>hello@artisanhome.in</span>
+                <Mail size={18} />
+                <span>hello@srivenkateswara.in</span>
               </a>
               <div className="flex items-start gap-3 text-ivory/70">
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
@@ -125,8 +125,8 @@ export function Footer() {
 
         {/* Social & Bottom */}
         <div className="mt-16 pt-8 border-t border-ivory/10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-sm text-ivory/50">
-            © {new Date().getFullYear()} ArtisanHome. All rights reserved.
+          <p className="text-ivory/60 text-sm">
+            © {new Date().getFullYear()} Sri Venkateswara Furnishings. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <a

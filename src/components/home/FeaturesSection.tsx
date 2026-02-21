@@ -50,7 +50,7 @@ export function FeaturesSection() {
             Why Choose Us
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mt-3 mb-4">
-            The ArtisanHome Difference
+            The Sri Venkateswara Furnishings Difference
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Experience the perfect blend of craftsmanship, quality, and personalized
