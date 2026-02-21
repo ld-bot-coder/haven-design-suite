@@ -35,8 +35,8 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
               <span className="font-serif text-3xl font-semibold">
-                <span className="text-gold">Artisan</span>
-                <span className="text-ivory">Home</span>
+                <span className="text-gold">Sri Venkateshwar</span>
+                <span className="text-ivory">Furnishinga</span>
               </span>
             </Link>
             <p className="text-ivory/70 text-sm leading-relaxed max-w-sm mb-8">
