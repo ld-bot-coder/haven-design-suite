@@ -46,8 +46,8 @@ export function Navbar() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <span className="font-serif text-2xl lg:text-3xl font-semibold tracking-tight">
-                <span className="text-primary">Artisan</span>
-                <span className="text-foreground">Home</span>
+                <span className="text-primary">Sri Venkateshwar</span>
+                <span className="text-foreground">Furnishings</span>
               </span>
             </Link>
 
